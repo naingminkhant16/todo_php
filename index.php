@@ -3,8 +3,6 @@ require 'config.php';
 $statement = $pdo->prepare('SELECT * FROM todo ORDER BY id DESC');
 $statement->execute();
 $result = $statement->fetchAll();
-echo "<pre>";
-var_dump($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,10 +41,10 @@ var_dump($result);
                                 <td><?= $i ?></td>
                                 <td><?= $value->title ?></td>
                                 <td><?= $value->description ?></td>
-                                <td><?= date('Y-m-d',strtotime($value->created_at)) ?></td>
+                                <td><?= date('Y-m-d', strtotime($value->created_at)) ?></td>
                                 <td>
-                                    <a type="button" href="edit.php" class="btn btn-secondary">Edit</a>
-                                    <a type="button" href="#" class="btn btn-danger">Delete</a>
+                                    <a type="button" href="edit.php?id=<?= $value->id ?>" class="btn btn-secondary">Edit</a>
+                                    <a type="button" href="delete.php?id=<?= $value->id ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                     <?php $i++;

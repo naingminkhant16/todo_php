@@ -1,5 +1,22 @@
 <?php
+require 'config.php';
+if ($_POST) {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $id = $_POST['id'];
+    $statement = $pdo->prepare("UPDATE todo SET title='$title',description='$description' WHERE id=$id");
+    $result = $statement->execute();
 
+    if ($result) {
+        echo "<script>alert('New Todo is added!');
+                window.location.href='index.php';</script>";
+    }
+} else {
+    $id = $_GET['id'];
+    $statement = $pdo->prepare('SELECT * FROM todo WHERE id=:id');
+    $statement->execute([':id' => $id]);
+    $result = $statement->fetchAll();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,14 +33,15 @@
     <div class="card">
         <div class="card-body container">
             <h2>Edit Todo List</h2>
-            <form action="add.php" method="post">
+            <form action="" method="post">
+                <input type="hidden" class="form-control" name="id" value="<?= $result[0]->id ?>">
                 <div class="form-group mt-4">
                     <label for="" class="form-lable">Title</label>
-                    <input type="text" class="form-control" name='title' required>
+                    <input type="text" class="form-control" name='title' value="<?= $result[0]->title ?>" required>
                 </div>
                 <div class="form-group mt-4">
                     <label for="" class="form-lable">Description</label>
-                    <textarea name="description" rows="5" class="form-control"></textarea>
+                    <textarea name="description" rows="5" class="form-control"><?= $result[0]->description ?></textarea>
                 </div>
                 <div class="form-group mt-4">
                     <input type="submit" class="btn btn-primary" value="UPDATE">

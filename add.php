@@ -3,15 +3,13 @@ require 'config.php';
 if ($_POST) {
     $title = $_POST['title'];
     $description = $_POST['description'];
-    echo $title;
-    echo $description;
     $sql = "INSERT INTO todo(title,description) VALUES (:title,:description)";
     $statement = $pdo->prepare($sql);
-    $result= $statement->execute([
+    $result = $statement->execute([
         ':title' => $title,
         ':description' => $description
     ]);
-    if($result){
+    if ($result) {
         echo "<script>alert('New Todo is added!');
                 window.location.href='index.php';</script>";
     }
@@ -32,7 +30,7 @@ if ($_POST) {
     <div class="card">
         <div class="card-body container">
             <h2>Create New Todo List</h2>
-            <form action="add.php" method="post">
+            <form action="" method="post">
                 <div class="form-group mt-4">
                     <label for="" class="form-lable">Title</label>
                     <input type="text" class="form-control" name='title' required>
